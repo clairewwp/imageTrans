@@ -1,0 +1,77 @@
+.container{
+    width: 100%;
+}
+.navbar{
+    background-color:rgba(206, 91, 120, 0.855);
+    color: #fff;
+}
+#upperrow{
+    align-items: flex-end;
+}.input-group-append{
+    font-weight: bolder;
+}
+#download {
+    display: none;
+}
+h1{
+    font-family: monospace;
+}
+label{
+    font-family: monospace;
+}
+#upload-image, #transcode,#delete, #download, #upload {
+    color: white;
+    background: rgb(255, 192, 120);
+    font-weight: bolder;
+    font-family: monospace;
+}#imageTable
+{
+    width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+    font-family:monospace;
+    vertical-align:middle;
+    font-weight: bold;
+    color: rgba(206, 91, 120, 0.855);
+    --bs-table-hover-color: #fff;
+}#display {
+    border-radius: 15px;
+    background: rgb(255, 236, 236);
+    height: 500px;
+    overflow: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+
+}#description {
+    line-height: 280px;
+    text-align: center;
+    color: rgba(206, 91, 120, 0.855);
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+form img {
+    object-fit:contain;
+    height: 62px;
+    width: 62px;
+    order: 1;
+}td{
+    text-align: center;
+}
+th{
+    text-align: center;
+    color:coral;
+    font-family: monospace;
+}
+#table_header{
+    padding-right: 2rem;
+    margin-left: 20%;
+}#alert{
+    font-size: small;
+    font-family: monospace;
+    color: red;
+}#format{
+    font-family: monospace;
+}
+

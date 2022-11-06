@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-
 const upload=require('./routes/upload.js')
 const path=require('path')
 const hostname = "127.0.0.1";
@@ -34,4 +33,4 @@ app.listen(port, function () {
     console.log(`Express app listening at http://${hostname}:${port}/`);
   });
 
-  
+  module.exports = app;

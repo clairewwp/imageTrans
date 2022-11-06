@@ -3,9 +3,10 @@ const form=document.getElementById('form')
 const description=document.getElementById('description')
 const alert=document.getElementById('alert')
 let file = document.getElementById('image-files')
-const download = document.getElementById('download');
+
 
 file.addEventListener('change',Upload);
+
 //select files from local then display on the panel
 function Upload() {
     description.style.display = "none";
@@ -55,6 +56,7 @@ function validImageType(file) {
     ];
     return fileTypes.includes(file.type);
 }
+
 form.addEventListener("submit", async event=>{
     event.preventDefault();
     console.log(file.files.length)
@@ -70,6 +72,11 @@ form.addEventListener("submit", async event=>{
         method:"post",
         body:formData,
     }).catch((error)=>{console.log(error)});
-    // data = await data.json()
-    console.log(data)
+    data = await data.json()
+    let count = 0;
+    for( let i in data){        
+        console.log(data[i].source)
+        count++
+    }
+    console.log(`${count} of transcoding completed`)
 })

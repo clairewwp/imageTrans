@@ -10,20 +10,14 @@ const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 const redis = require('redis');
 const sharp = require('sharp')
 const redisClient = redis.createClient();
-AWS.config.getCredentials(function (err) {
-  if (err) {
-    console.log(err)
-  }
-  else {
-    console.log("Access key: ", AWS.config.credentials.accessKeyId);
-  }
-})
 router.post("/", async (req, res) => {
   (async () => {
     try {
       await redisClient.connect();
-      await s3.createBucket({ Bucket: bucketName }).promise();
-      console.log(`Created bucket:${bucketName}`);
+      if(s3.bucketName!=bucketName){
+        await s3.createBucket({ Bucket: bucketName }).promise();
+        console.log(`Created bucket:${bucketName}`);
+      }
     } catch (error) {
       if (error.statusCode != 409) {
         console.log(`Error creating bucket:${error}`)
@@ -57,11 +51,7 @@ router.post("/", async (req, res) => {
       }).toBuffer()
       //key is the first 30 digit of uploaded image's buffer + selected width and height
       //while the body stores the whole buffer of the resized image
-      // let images = Buffer.from(image).toString("base64");
-      
-      // k = images.slice(0, 60);
-      // k = k.replace(/\//g, "\\");
-      // k = k + `${width}` + `${height}`
+   
       let redisKey = imageKey
       let redisResult = await redisClient.get(redisKey)
       // console.log(redisKey)
@@ -72,13 +62,13 @@ router.post("/", async (req, res) => {
       }
       try {
         if (redisResult) {//here is from Redis
-          base64outcome.push({source:"redis",...redisResult})
-          res.json(redisResult)//not sure if I should pass this or image
+          base64outcome.push({source:`${redisKey} is from Redis`,...redisResult})
+          // res.json(redisResult)//not sure if I should pass this or image
           console.log('From redis')
         } else {//here is from S3
           const s3Result = await s3.getObject(params).promise();
           console.log('From s3')
-          base64outcome.push({source:'S3 Bucket',...s3Result})
+          base64outcome.push({source:`${s3Key} is from S3 bucket`,...s3Result})
           // res.json(s3Result.Body)
         }
       } catch (e) {//here is from webpage
@@ -96,7 +86,7 @@ router.post("/", async (req, res) => {
           }
           await s3.putObject(objectParams).promise();
           console.log(`Upload successfully to ${bucketName}/${s3Key}`)
-          base64outcome.push({source:'client upload',...resized})
+          base64outcome.push({source:`${imageKey} is from the web`,...resized})
           // res.json(resized);//from front end 
           console.log("from webpage");
           
